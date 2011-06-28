@@ -20,31 +20,27 @@ Yii::import('zii.widgets.jui.CJuiWidget');
 class EJcrop extends CJuiWidget
 {
 	/**
-	 * @var array An array conteniing an url of the picture to crop
-	 * required
+	 * @var string URL of the picture to crop.
 	 */
 	public $url;
 	/**
-	 * @var string A jQuery selector used to apply the widget to the element(s).
-	 * Use this to have the elements keep their binding when the DOM is manipulated
-	 * by Javascript, ie ajax calls or cloning.
-	 * Can also be useful when there are several elements that share the same settings,
-	 * to cut down on the amount of JS injected into the HTML.
-	 */
-	public $scriptSelector;
-	/**
-	 * @var type Alternate text for the full size image image
-	 * required
+	 * @var type Alternate text for the full size image image.
 	 */
 	public $alt;
 	/**
 	 * @var array to set buttons options
 	 */
 	public $buttonOptions = array();
-	
 	/**
-	 * 
+	 * @var string URL for the AJAX request
 	 */
+	public $ajaxUrl;
+	/**
+	 * @var array Extra parameters to send with the AJAX request.
+	 */
+	public $ajaxParams = array();
+	
+
 	public function run()
 	{
 		$assets = Yii::app()->getAssetManager()->publish(dirname(__FILE__) . '/assets');
@@ -74,13 +70,14 @@ class EJcrop extends CJuiWidget
 		$cls->registerScriptFile($assets . '/jquery.Jcrop.min.js');
 		$cls->registerScriptFile($assets . '/ejcrop.js', CClientScript::POS_HEAD);
 
-		$this->options['onChange'] = "js:function(c) { getCoords(c,'{$id}'); showThumb(c,'{$id}');}";
+		$this->options['onChange'] = "js:function(c) {ejcrop_getCoords(c,'{$id}'); ejcrop_showThumb(c,'{$id}');}";
+		$this->options['ajaxUrl'] = $this->ajaxUrl;
+		$this->options['ajaxParams'] = $this->ajaxParams;
 		
-		$this->options = array_merge($this->defaultOptions, $this->options);
 		$options = CJavaScript::encode($this->options);
 		
 		if (!empty($this->buttonOptions)) {
-			$js = "jcrop_initWithButtons('{$id}', {$options});";
+			$js = "ejcrop_initWithButtons('{$id}', {$options});";
 		}
 		else {
 			$js = "jQuery('#{$id}').jcrop({$options});";
