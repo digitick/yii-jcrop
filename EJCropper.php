@@ -50,6 +50,8 @@ class EJCropper
 		if (!imagecopyresampled($dest_r, $img, 0, 0, $coords['x'], $coords['y'], $this->targ_w, $this->targ_h, $coords['w'], $coords['h'])) {
 			return false;
 		}
+		
+		// save png or jpeg pictures only
 		if ($file_type == 'jpg' || $file_type == 'jpeg') {
 			imagejpeg($dest_r, $thumbName, $this->jpeg_quality);
 		}
