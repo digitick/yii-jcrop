@@ -78,9 +78,9 @@ function ejcrop_initWithButtons(id, options) {
 		});
 	}
 
-	$('body').delegate('#button_'+id,'click', function(e){
-		$('#submit_'+id+', #cancel_'+id).show();
-		$('#button_'+id).hide();
+	$('body').delegate('#start_'+id,'click', function(e){
+		$('#crop_'+id+', #cancel_'+id).show();
+		$('#start_'+id).hide();
 		if (!jcrop.id){
 			jcrop.id = $.Jcrop('#'+id, options);
 		}
@@ -89,9 +89,9 @@ function ejcrop_initWithButtons(id, options) {
 		jcrop.id.animateTo([dim[0]/4, dim[1]/4,dim[0]/2,dim[1]/2]);
 	});
 			
-	$('body').delegate('#submit_'+id,'click', function(e){
-		$('#button_'+id).show();
-		$('#submit_'+id+', #cancel_'+id).hide();
+	$('body').delegate('#crop_'+id,'click', function(e){
+		$('#start_'+id).show();
+		$('#crop_'+id+', #cancel_'+id).hide();
 		ajaxRequest(id);
 		jcrop.id.release();
 		jcrop.id.disable();

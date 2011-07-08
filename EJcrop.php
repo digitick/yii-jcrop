@@ -23,40 +23,43 @@ class EJcrop extends CJuiWidget
 	 * @var string URL of the picture to crop.
 	 */
 	public $url;
+
 	/**
 	 * @var type Alternate text for the full size image image.
 	 */
 	public $alt;
+
 	/**
 	 * @var array to set buttons options
 	 */
-	public $buttonOptions = array();
+	public $buttons = array();
+
 	/**
 	 * @var string URL for the AJAX request
 	 */
 	public $ajaxUrl;
+
 	/**
 	 * @var array Extra parameters to send with the AJAX request.
 	 */
 	public $ajaxParams = array();
-	
 
-	public function run()
+	public function init()
 	{
 		$assets = Yii::app()->getAssetManager()->publish(dirname(__FILE__) . '/assets');
-		
-		if(!isset($this->htmlOptions['id'])) {
+
+		if (!isset($this->htmlOptions['id'])) {
 			$this->htmlOptions['id'] = $this->getId();
 		}
-		$id = $this->htmlOptions['id'];
-		
+		$this->id = $id = $this->htmlOptions['id'];
+
 		echo CHtml::image($this->url, $this->alt, $this->htmlOptions);
-		
-		if (!empty($this->buttonOptions)) {
-			echo '<div class="jcrop-buttons">'.
-			CHtml::button($this->buttonOptions['startLabel'], array('id' => 'button_' . $id, 'class' => 'jcrop-start'));
-			echo CHtml::button($this->buttonOptions['cropLabel'], array('id' => 'submit_' . $id, 'style' => 'display:none;', 'class' => 'jcrop-crop'));
-			echo CHtml::button($this->buttonOptions['cancelLabel'], array('id' => 'cancel_' . $id, 'style' => 'display:none;', 'class' => 'jcrop-cancel')).
+
+		if (!empty($this->buttons)) {
+			echo '<div class="jcrop-buttons">' .
+			CHtml::button($this->buttons['start']['label'], $this->getHtmlOptions('start','inline'));
+			echo CHtml::button($this->buttons['crop']['label'], $this->getHtmlOptions('crop'));
+			echo CHtml::button($this->buttons['cancel']['label'], $this->getHtmlOptions('cancel')) .
 			'</div>';
 		}
 		echo CHtml::hiddenField($id . '_x', 0, array('class' => 'coords'));
@@ -65,7 +68,7 @@ class EJcrop extends CJuiWidget
 		echo CHtml::hiddenField($id . '_h', 0, array('class' => 'coords'));
 		echo CHtml::hiddenField($id . '_x2', 0, array('class' => 'coords'));
 		echo CHtml::hiddenField($id . '_y2', 0, array('class' => 'coords'));
-		
+
 		$cls = Yii::app()->getClientScript();
 		$cls->registerScriptFile($assets . '/jquery.Jcrop.min.js');
 		$cls->registerScriptFile($assets . '/ejcrop.js', CClientScript::POS_HEAD);
@@ -73,10 +76,10 @@ class EJcrop extends CJuiWidget
 		$this->options['onChange'] = "js:function(c) {ejcrop_getCoords(c,'{$id}'); ejcrop_showThumb(c,'{$id}');}";
 		$this->options['ajaxUrl'] = $this->ajaxUrl;
 		$this->options['ajaxParams'] = $this->ajaxParams;
-		
+
 		$options = CJavaScript::encode($this->options);
-		
-		if (!empty($this->buttonOptions)) {
+
+		if (!empty($this->buttons)) {
 			$js = "ejcrop_initWithButtons('{$id}', {$options});";
 		}
 		else {
@@ -84,4 +87,39 @@ class EJcrop extends CJuiWidget
 		}
 		$cls->registerScript(__CLASS__ . '#' . $id, $js, CClientScript::POS_READY);
 	}
+	
+		/**
+	 * Get the HTML options for the buttons.
+	 * 
+	 * @param string $name button name
+	 * @return array HTML options 
+	 */
+	protected function getHtmlOptions($name,$display='none')
+	{
+		if (isset($this->buttons[$name]['htmlOptions'])) {
+			if (isset($this->buttons[$name]['htmlOptions']['id'])) {
+				throw new CException("id for jcrop '{$name}' button may not be set manually.");
+			}
+			$options = $this->buttons[$name]['htmlOptions'];
+			
+			if (isset($options['class'])) {
+				$options['class'] = $options['class'] . " jcrop-{$name}";
+			}
+			else {
+				$options['class'] = "jcrop-{$name}";
+			}
+			if (isset($options['style'])) {
+				$options['style'] = $options['style'] . " display:{$display};";
+			}
+			else  {
+				$options['style'] = "display:{$display};";
+			}
+			$options['id'] = $name . '_' . $this->id;
+		}
+		else {
+			$options = array('id' => $name . '_' . $this->id, 'style' => "display:{$display};", 'class' => "jcrop-{$name}");
+		}
+		return $options;
+	}
+
 }
