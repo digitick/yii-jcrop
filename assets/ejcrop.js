@@ -12,8 +12,8 @@ function ejcrop_showThumb(coords, id) {
 	var rx = 100 / coords.w;
 	var ry = 100 / coords.h;
 	
-	var height = $('#'+id).attr('height');
-	var width = $('#'+id).attr('width');
+	var height = $('#'+id).prop('height');
+	var width = $('#'+id).prop('width');
 	
 	$('#thumbEvent_'+id).css({ 
 		width: Math.round(rx * width) + 'px',
