@@ -70,8 +70,9 @@ class EJcrop extends CJuiWidget
 		echo CHtml::hiddenField($id . '_y2', 0, array('class' => 'coords'));
 
 		$cls = Yii::app()->getClientScript();
-		$cls->registerScriptFile($assets . '/jquery.Jcrop.min.js');
-		$cls->registerScriptFile($assets . '/ejcrop.js', CClientScript::POS_HEAD);
+		$cls->registerScriptFile($assets . '/js/jquery.Jcrop.min.js');
+		$cls->registerScriptFile($assets . '/js/ejcrop.js', CClientScript::POS_HEAD);
+		$cls->registerCssFile($assets . '/css/jquery.Jcrop.css');
 
 		$this->options['onChange'] = "js:function(c) {ejcrop_getCoords(c,'{$id}'); ejcrop_showThumb(c,'{$id}');}";
 		$this->options['ajaxUrl'] = $this->ajaxUrl;
