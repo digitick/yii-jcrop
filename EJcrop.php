@@ -23,22 +23,18 @@ class EJcrop extends CJuiWidget
 	 * @var string URL of the picture to crop.
 	 */
 	public $url;
-
 	/**
 	 * @var type Alternate text for the full size image image.
 	 */
 	public $alt;
-
 	/**
 	 * @var array to set buttons options
 	 */
 	public $buttons = array();
-
 	/**
 	 * @var string URL for the AJAX request
 	 */
 	public $ajaxUrl;
-
 	/**
 	 * @var array Extra parameters to send with the AJAX request.
 	 */
@@ -57,7 +53,7 @@ class EJcrop extends CJuiWidget
 
 		if (!empty($this->buttons)) {
 			echo '<div class="jcrop-buttons">' .
-			CHtml::button($this->buttons['start']['label'], $this->getHtmlOptions('start','inline'));
+			CHtml::button($this->buttons['start']['label'], $this->getHtmlOptions('start', 'inline'));
 			echo CHtml::button($this->buttons['crop']['label'], $this->getHtmlOptions('crop'));
 			echo CHtml::button($this->buttons['cancel']['label'], $this->getHtmlOptions('cancel')) .
 			'</div>';
@@ -88,21 +84,21 @@ class EJcrop extends CJuiWidget
 		}
 		$cls->registerScript(__CLASS__ . '#' . $id, $js, CClientScript::POS_READY);
 	}
-	
-		/**
+
+	/**
 	 * Get the HTML options for the buttons.
 	 * 
 	 * @param string $name button name
 	 * @return array HTML options 
 	 */
-	protected function getHtmlOptions($name,$display='none')
+	protected function getHtmlOptions($name, $display='none')
 	{
 		if (isset($this->buttons[$name]['htmlOptions'])) {
 			if (isset($this->buttons[$name]['htmlOptions']['id'])) {
 				throw new CException("id for jcrop '{$name}' button may not be set manually.");
 			}
 			$options = $this->buttons[$name]['htmlOptions'];
-			
+
 			if (isset($options['class'])) {
 				$options['class'] = $options['class'] . " jcrop-{$name}";
 			}
@@ -112,7 +108,7 @@ class EJcrop extends CJuiWidget
 			if (isset($options['style'])) {
 				$options['style'] = $options['style'] . " display:{$display};";
 			}
-			else  {
+			else {
 				$options['style'] = "display:{$display};";
 			}
 			$options['id'] = $name . '_' . $this->id;
