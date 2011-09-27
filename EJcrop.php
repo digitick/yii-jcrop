@@ -80,7 +80,7 @@ class EJcrop extends CJuiWidget
 			$js = "ejcrop_initWithButtons('{$id}', {$options});";
 		}
 		else {
-			$js = "jQuery('#{$id}').jcrop({$options});";
+			$js = "jQuery('#{$id}').Jcrop({$options});";
 		}
 		$cls->registerScript(__CLASS__ . '#' . $id, $js, CClientScript::POS_READY);
 	}
