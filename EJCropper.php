@@ -53,7 +53,7 @@ class EJCropper
 		if (!$this->thumbPath) {
 			throw new CException(__CLASS__ . ' : thumbpath is not specified.');
 		}
-		$file_type = pathinfo($src, PATHINFO_EXTENSION);
+		$file_type = strtolower(pathinfo($src, PATHINFO_EXTENSION));
 		$thumbName = $this->thumbPath . '/' . pathinfo($src, PATHINFO_BASENAME);
 
 		if ($file_type == 'jpg' || $file_type == 'jpeg') {
@@ -61,6 +61,9 @@ class EJCropper
 		}
 		elseif ($file_type == 'png') {
 			$img = imagecreatefrompng($src);
+		}
+		elseif($file_type == 'gif'){
+			$img = imagecreatefromgif($src);
 		}
 		else {
 			return false;
@@ -75,6 +78,9 @@ class EJCropper
 		}
 		elseif ($file_type == 'png') {
 			imagepng($dest_r, $thumbName, $this->png_compression);
+		}
+		elseif($file_type == 'gif'){
+			imagegif($dest_r,$thumbName);
 		}
 		return $thumbName;
 	}
