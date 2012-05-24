@@ -1,0 +1,14 @@
+# OS generated #
+._*
+.DS_Store*
+.Trash-*
+*~
+
+# Compiled #
+*.war
+*.jar
+*.exe
+*.app
+*.dmg
+*.zip
+*.deb

@@ -52,7 +52,7 @@ class EJcrop extends CJuiWidget
 		echo CHtml::image($this->url, $this->alt, $this->htmlOptions);
 
 		if (!empty($this->buttons)) {
-			echo '<div class="jcrop-buttons">' .
+			echo "<div class='jcrop-buttons' id='{$this->id}_buttons'>" .
 			CHtml::button($this->buttons['start']['label'], $this->getHtmlOptions('start', 'inline'));
 			echo CHtml::button($this->buttons['crop']['label'], $this->getHtmlOptions('crop'));
 			echo CHtml::button($this->buttons['cancel']['label'], $this->getHtmlOptions('cancel')) .

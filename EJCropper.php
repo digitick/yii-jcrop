@@ -62,7 +62,7 @@ class EJCropper
 		elseif ($file_type == 'png') {
 			$img = imagecreatefrompng($src);
 		}
-		elseif($file_type == 'gif'){
+		elseif ($file_type == 'gif') {
 			$img = imagecreatefromgif($src);
 		}
 		else {
@@ -79,8 +79,8 @@ class EJCropper
 		elseif ($file_type == 'png') {
 			imagepng($dest_r, $thumbName, $this->png_compression);
 		}
-		elseif($file_type == 'gif'){
-			imagegif($dest_r,$thumbName);
+		elseif ($file_type == 'gif') {
+			imagegif($dest_r, $thumbName);
 		}
 		return $thumbName;
 	}
