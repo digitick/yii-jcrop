@@ -3,6 +3,9 @@
 .DS_Store*
 .Trash-*
 *~
+.Trashes
+Thumbs.db
+Session.vim
 
 # Compiled #
 *.war
@@ -12,3 +15,9 @@
 *.dmg
 *.zip
 *.deb
+
+# Editors
+.idea/
+nbproject/
+nbactions.xml
+nb-configuration.xml
